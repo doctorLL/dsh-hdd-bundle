@@ -8,7 +8,7 @@
   "author": "Chengzhibense",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/doctorLL/dsh-hdd-bundle-.git"
+    "url": "git+https://github.com/doctorLL/dsh-hdd-bundle.git"
   },
   "main": "./src/index.js",
   "exports": {
