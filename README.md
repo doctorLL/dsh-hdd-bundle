@@ -9,6 +9,29 @@ Fairy 的 HDD 视觉主题，作为一个标准的 DSH bundle 插件，给 DeepS
 - 验证环境：DSH `0.2.1-rc.5` 桌面版 / Web 界面
 - 许可：Apache-2.0（第三方与商标边界见 [NOTICE](NOTICE) 与 [TRADEMARKS.md](TRADEMARKS.md)）
 
+## 来源与二次开发
+
+本仓库是 [Chengzhibense/Fairy-DSH](https://github.com/Chengzhibense/Fairy-DSH) 的
+**二次开发**，不是从零开始的项目。上游是这套 HDD 主题的原始实现（Apache-2.0）；本仓库把
+其中的 `fairy-visual/dsh-fairy-visual` 迁移到 DSH `0.2.1-rc.5` 的插件契约上，按标准
+bundle 形态重新打包，只发布主题这一个包。
+
+- 上游基线：`d639887`（2026-08-29）中的 `fairy-visual/dsh-fairy-visual` `0.1.0`
+- 上游版权与 NOTICE 按 Apache-2.0 保留，见 [NOTICE](NOTICE)；本仓库的修改同样以
+  Apache-2.0 发布
+
+相对上游的改动（Apache-2.0 §4(b) 要求的"已修改"声明）：
+
+| 面 | 改动 |
+| --- | --- |
+| 目标版本 | `0.1.1-rc.2` → `0.2.1-rc.5` |
+| 设置通道 | `ctx.settingsScope.bind({ namespace })` 在 rc.5 不存在，改为插件自有 JSON 存储 + `GET/POST /fairy-visual/settings` |
+| 装载形态 | 不再依赖 `profiles/web` 的 `clientModules` 注册，改为每包自带 `dsh.bundle.patch` 与 `cordis.patch.yml` |
+| 契约 | `dsh-fairy-contracts` 的跨包裸导入内联为 `src/contracts/`；客户端 inject 收窄到 rc.5 真实存在的服务 |
+| DOM 适配 | 补 `[data-phase]`、`data-conversation-region="chat"` 等 rc.5 标记的回退读取 |
+| 构建 | 宿主半边不再打包（`src/index.js` 由 loader 直接加载），只有客户端走 tsdown |
+| 裁剪 | composer 底舱与 Hero 投影在 rc.5 关闭（两个开关保留，代码未删） |
+
 ## 它做了什么
 
 | 部件 | 说明 |
@@ -69,6 +92,8 @@ pnpm build                                   # tsdown: src/client/index.js -> li
 
 ## 许可证
 
-原创代码按 Apache License 2.0 发布，见 [LICENSE](LICENSE)。第三方依赖、宿主提供的
-DSH 包以及相关名称/角色/商标不在该许可范围内，分别见
-[THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) 与 [TRADEMARKS.md](TRADEMARKS.md)。
+原创代码按 Apache License 2.0 发布，见 [LICENSE](LICENSE)。代码主体来自上游
+[Chengzhibense/Fairy-DSH](https://github.com/Chengzhibense/Fairy-DSH)，本仓库的修改沿用
+同一许可并保留其 NOTICE。第三方依赖、宿主提供的 DSH 包以及相关名称/角色/商标不在该
+许可范围内，分别见 [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) 与
+[TRADEMARKS.md](TRADEMARKS.md)。

@@ -2,6 +2,12 @@
 
 本包不复制第三方源码：运行期依赖由宿主提供，构建期依赖不随包分发。
 
+## 上游项目
+
+| 项目 | 来源 | 许可证 | 说明 |
+| --- | --- | --- | --- |
+| Fairy-DSH | [Chengzhibense/Fairy-DSH](https://github.com/Chengzhibense/Fairy-DSH) · 基线 `d639887` | Apache-2.0 | `dsh-fairy-visual` 的原始实现。本仓库是它在 DSH 0.2.1-rc.5 上的二次开发，保留上游版权与 NOTICE；修改清单见 README 的「来源与二次开发」 |
+
 ## 运行期（由 DSH 宿主提供，不 vendoring）
 
 | 包 | 许可证 | 说明 |

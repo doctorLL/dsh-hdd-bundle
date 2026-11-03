@@ -6,6 +6,10 @@
   "description": "Fairy's HDD visual theme for the DeepSeek Harness Web UI",
   "license": "Apache-2.0",
   "author": "Chengzhibense",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/doctorLL/dsh-hdd-bundle-.git"
+  },
   "main": "./src/index.js",
   "exports": {
     ".": "./src/index.js",
