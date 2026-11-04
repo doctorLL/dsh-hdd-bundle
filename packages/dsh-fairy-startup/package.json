@@ -1,33 +1,23 @@
 {
-  "name": "dsh-fairy-visual",
-  "version": "0.2.0-m1",
+  "name": "dsh-fairy-startup",
+  "version": "0.2.0",
   "private": true,
   "type": "module",
-  "description": "Fairy's HDD visual theme for the DeepSeek Harness Web UI",
-  "license": "Apache-2.0",
-  "author": "Chengzhibense",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/doctorLL/dsh-hdd-bundle.git"
-  },
-  "main": "./src/index.js",
+  "description": "Fairy's fresh-session startup behaviour",
+  "main": "./lib/index.js",
   "exports": {
-    ".": "./src/index.js",
+    ".": "./lib/index.js",
     "./client": "./lib/client.js",
     "./locale/*.json": "./locale/*.json",
     "./icon": "./icon.svg",
     "./package.json": "./package.json"
   },
   "files": [
-    "src",
     "lib",
     "locale",
     "icon.svg",
     "cordis.patch.yml"
   ],
-  "scripts": {
-    "build": "tsdown"
-  },
   "dsh": {
     "bundle": {
       "patch": "./cordis.patch.yml"
@@ -41,9 +31,5 @@
         "@deepseek-ai/dsh-client-ui-settings"
       ]
     }
-  },
-  "devDependencies": {
-    "tinyexec": "^1.3.1",
-    "tsdown": "^0.23.4"
   }
 }

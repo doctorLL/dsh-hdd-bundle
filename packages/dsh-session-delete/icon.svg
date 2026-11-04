@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="Delete conversation permanently">
+  <defs>
+    <linearGradient id="shell" x1="8" y1="6" x2="56" y2="58" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#3a1420" />
+      <stop offset="1" stop-color="#16080d" />
+    </linearGradient>
+  </defs>
+  <rect x="4" y="4" width="56" height="56" rx="16" fill="url(#shell)" stroke="#ff8fa6" stroke-width="2" />
+  <path d="M22 24h20M27 24v-3h10v3M25 28l1.5 18h11L39 28" fill="none" stroke="#ffb3c2" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+  <path d="M30 32v10M34 32v10" fill="none" stroke="#ff8fa6" stroke-width="2.2" stroke-linecap="round" />
+</svg>

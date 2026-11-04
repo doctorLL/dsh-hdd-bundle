@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="Fairy DSH">
+  <defs>
+    <linearGradient id="shell" x1="8" y1="6" x2="56" y2="58" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#12354f" />
+      <stop offset="1" stop-color="#07131f" />
+    </linearGradient>
+  </defs>
+  <rect x="4" y="4" width="56" height="56" rx="16" fill="url(#shell)" stroke="#8fe3ff" stroke-width="2" />
+  <path d="M22 40h6V30h-6zM30 40h6V24h-6zM38 40h6V34h-6z" fill="#8fe3ff" />
+  <circle cx="32" cy="20" r="4" fill="none" stroke="#8fe3ff" stroke-width="2.2" />
+</svg>

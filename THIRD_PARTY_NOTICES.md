@@ -1,31 +1,47 @@
-# 第三方声明
+# Third-party notices
 
-本包不复制第三方源码：运行期依赖由宿主提供，构建期依赖不随包分发。
+本仓库不复制第三方源码。以下依赖由包管理器或 DSH 宿主安装；它们不在
+Fairy-DSH 的 Apache-2.0 原创代码许可范围内，发布时必须继续保留各自的
+许可证、版权和 NOTICE 要求。
 
-## 上游项目
-
-| 项目 | 来源 | 许可证 | 说明 |
+| 包 | 固定版本 / 来源 | 许可证 | 版权 / 来源 |
 | --- | --- | --- | --- |
-| Fairy-DSH | [Chengzhibense/Fairy-DSH](https://github.com/Chengzhibense/Fairy-DSH) · 基线 `d639887` | Apache-2.0 | `dsh-fairy-visual` 的原始实现。本仓库是它在 DSH 0.2.1-rc.5 上的二次开发，保留上游版权与 NOTICE；修改清单见 README 的「来源与二次开发」 |
+| `@playwright/mcp` | `0.0.79` · [microsoft/playwright-mcp](https://github.com/microsoft/playwright-mcp) | Apache-2.0 | Microsoft；随包附带声明 |
+| `@upstash/context7-mcp` | `4.0.2` · [upstash/context7](https://github.com/upstash/context7) | MIT | Upstash；随包附带声明 |
+| `dsh-message-edit` | `0.2.3` · [Moeblack/dsh-message-edit](https://github.com/Moeblack/dsh-message-edit) | MIT | Moeblack；随包附带声明 |
+| `dsh-reasoning-effort` | `0.6.2` · commit `83bc8c548749d7156a03d11d875d8117e9b5d994` · [HanaAyane/dsh-reasoning-effort](https://github.com/HanaAyane/dsh-reasoning-effort) | MIT | HanaAyane；随包附带声明 |
+| `hono` | `4.13.2` · [honojs/hono](https://github.com/honojs/hono) | MIT | Hono contributors；随包附带声明 |
 
-## 运行期（由 DSH 宿主提供，不 vendoring）
+## 宿主提供的 DSH 包
 
-| 包 | 许可证 | 说明 |
+`@deepseek-ai/dsh-base`、`@deepseek-ai/dsh-web-app` 等由 DSH CLI/profile
+宿主提供，不随本仓库 vendoring，也不由本项目重新授权。使用者应按照 DSH
+发行包中的许可证和版权文件处理。
+
+## 本仓库内的原创包
+
+`packages/` 下的九个包（`dsh-fairy-visual`、`dsh-fairy-voice`、`dsh-fairy-preset`、
+`dsh-fairy-startup`、`dsh-browser-dock`、`dsh-balance-meter`、
+`dsh-fairy-contracts`、`dsh-session-delete`、`dsh-sticky-notes`）的原创代码与配置
+按根目录 `LICENSE` 和 `NOTICE` 处理。
+
+`legacy/rc2/` 下的目录是上游 [Chengzhibense/Fairy-DSH](https://github.com/Chengzhibense/Fairy-DSH)
+基线的原样拷贝（Apache-2.0，版权 Chengzhibense），同样按根目录 `LICENSE` 与
+`NOTICE` 处理；其中的第三方依赖照旧适用各自许可证。
+
+## 语料派生的内容（不属于上述许可）
+
+以下内容派生自《绝区零》语料，按维护者决定随仓库公开，但**不受 Apache-2.0
+覆盖，也不授予任何权利**：
+
+| 内容 | 位置 | 说明 |
 | --- | --- | --- |
-| `react` / `react/jsx-runtime` | MIT | 客户端产物 `lib/client.js` 只把它们外置为 `require`，由 DSH Web 运行时提供；版权归 Meta Platforms, Inc. 及其贡献者 |
-| `@deepseek-ai/dsh-*`（base、web-app、client-ui-* 等） | 见 DSH 发行包 | 本包声明为 `dsh.client.inject` 的客户端包与宿主服务均来自 DSH 安装，不由本项目重新授权 |
+| Fairy 人格提示词 | `packages/dsh-fairy-preset/cordis.patch.yml` | 由 `.agent-presets/fairy/agent.cordis.yml` 的 `persona.config.text` 迁入 `prefix`，逐字节搬运 |
+| 合成语音 | `packages/dsh-fairy-voice/assets/sounds/*.wav` | 44 段提示音，本地 TTS 生成 |
+| 参考语料 | `.agent-presets/fairy/{canon,behavior,personality,style}/` | 含《绝区零》场景 ID 证据链与派生产物 |
 
-## 构建期（`devDependencies`，不随包分发）
+上述材料的版权、角色形象与声音权利归米哈游（miHoYo）及相关权利人；本仓库
+只做个人研究用途的留存，权利人提出异议即移除。
 
-| 包 | 用途 | 许可证 |
-| --- | --- | --- |
-| `tsdown` | 打包 `src/client` 为 `lib/client.js` | MIT |
-| `tinyexec` | 构建脚本调用 | MIT |
-
-使用者的 profile 不需要这些依赖：`lib/client.js` 是随仓库提交的预构建产物。
-
-## 本包原创内容
-
-`src/`、`lib/`、`locale/`、`cordis.patch.yml`、`icon.svg` 及文档为本项目原创，按
-根目录 `LICENSE`（Apache-2.0）与 `NOTICE` 处理。发布新版本时应重新核对实际依赖与
-许可证，不能因为依赖被锁定就把它当作本项目原创内容。
+发布新版本时，应从最终 lockfile 重新核对版本、来源和许可证，并把新增的
+第三方依赖补入本表；不能因为依赖被锁定就把它们当作本项目原创内容。

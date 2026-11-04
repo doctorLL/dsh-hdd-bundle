@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "Delete Conversation Permanently",
+    "description": "Adds a permanent delete action to the workspace conversation menu, removing the log, cache, and workspace membership."
+  }
+}

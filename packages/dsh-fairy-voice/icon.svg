@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="Fairy Voice Cues">
+  <defs>
+    <linearGradient id="shell" x1="8" y1="6" x2="56" y2="58" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#12354f" />
+      <stop offset="1" stop-color="#07131f" />
+    </linearGradient>
+  </defs>
+  <rect x="4" y="4" width="56" height="56" rx="16" fill="url(#shell)" stroke="#ffd479" stroke-width="2" />
+  <path d="M24 26h5l7-6v24l-7-6h-5z" fill="none" stroke="#ffd479" stroke-width="2.4" stroke-linejoin="round" />
+  <path d="M41 25a9 9 0 0 1 0 14" fill="none" stroke="#ffd479" stroke-width="2.4" stroke-linecap="round" />
+  <path d="M46 20a15 15 0 0 1 0 24" fill="none" stroke="#ffd479" stroke-width="2.4" stroke-linecap="round" opacity=".55" />
+</svg>

@@ -1,0 +1,9 @@
+# dsh-sticky-notes bundle layer.
+#
+# Installing this package adds one profile dependency and appends the row below
+# after the shipped bundles. The row id is stable - the profile patch layer and
+# the plugin manager address rows by id.
+
+- insert:
+    - id: fairy-sticky-notes
+      name: 'dsh-sticky-notes'

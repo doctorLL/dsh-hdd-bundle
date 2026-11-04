@@ -1,0 +1,60 @@
+name: candidate-tests
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  legacy-suites:
+    name: legacy rc.2 suites
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 11.22.0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+          cache-dependency-path: |
+            legacy/rc2/profiles/web/pnpm-lock.yaml
+            legacy/rc2/fairy-visual/dsh-fairy-visual/pnpm-lock.yaml
+            legacy/rc2/fairy-voice/dsh-fairy-voice/pnpm-lock.yaml
+            legacy/rc2/fairy-startup/dsh-fairy-startup/pnpm-lock.yaml
+            legacy/rc2/browser-dock/dsh-browser-dock/pnpm-lock.yaml
+            legacy/rc2/balance-meter/dsh-balance-meter/pnpm-lock.yaml
+      - name: Install and test visual
+        working-directory: legacy/rc2/fairy-visual/dsh-fairy-visual
+        run: pnpm install --frozen-lockfile --ignore-scripts && pnpm test
+      - name: Install and test voice
+        working-directory: legacy/rc2/fairy-voice/dsh-fairy-voice
+        run: pnpm install --frozen-lockfile --ignore-scripts && pnpm test
+
+  rc5-packages:
+    name: rc.5 package gates
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: node --check on package entry points
+        run: |
+          set -e
+          for dir in packages/*/; do
+            for file in "${dir}src/index.js" "${dir}lib/index.js" "${dir}lib/client.js" "${dir}src/client/index.js"; do
+              if [ -f "$file" ]; then
+                node --check "$file"
+                echo "ok $file"
+              fi
+            done
+          done
+      - name: Unit tests
+        run: |
+          set -e
+          for suite in packages/*/test; do
+            if [ -d "$suite" ]; then
+              node --test "$suite"/*.test.js
+            fi
+          done

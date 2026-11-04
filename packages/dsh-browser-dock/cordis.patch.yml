@@ -1,0 +1,9 @@
+# dsh-browser-dock bundle layer.
+#
+# This package is its own bundle: installing it adds one profile dependency
+# and appends the row below after @deepseek-ai/dsh-base and @deepseek-ai/dsh-web-app.
+# Keep the row id stable - the profile patch layer addresses rows by id.
+
+- insert:
+    - id: fairy-browser
+      name: 'dsh-browser-dock'

@@ -1,99 +1,84 @@
-# dsh-fairy-visual
+# Fairy-DSH
 
-Fairy 的 HDD 视觉主题，作为一个标准的 DSH bundle 插件，给 DeepSeek Harness Web 界面
-加一层可开关的视觉皮肤。它是纯表现层：不改会话、不改预设、不碰语音，删掉它之后
-界面回到官方原样。
+Fairy 的 DSH（DeepSeek Harness）插件套件。把
+[Chengzhibense/Fairy-DSH](https://github.com/Chengzhibense/Fairy-DSH) 里的 Fairy 插件与验收
+工具，从 DSH `0.1.1-rc.2` 迁移到 `0.2.1-rc.5` 的插件契约上重新打包。
 
-- 包名：`dsh-fairy-visual`
-- 形态：一个包 = 一个 bundle（`dsh.bundle.patch` + `cordis.patch.yml` + 客户端半边）
-- 验证环境：DSH `0.2.1-rc.5` 桌面版 / Web 界面
-- 许可：Apache-2.0（第三方与商标边界见 [NOTICE](NOTICE) 与 [TRADEMARKS.md](TRADEMARKS.md)）
+本仓库是上游的**二次开发**（Apache-2.0 衍生），不是从零开始的项目。上游原始实现原样保留在
+`legacy/rc2/`，作为对照与回滚基线。首个公开版本只发布了视觉主题一个包，这一版发布全量内容。
 
-## 来源与二次开发
+## 目录
 
-本仓库是 [Chengzhibense/Fairy-DSH](https://github.com/Chengzhibense/Fairy-DSH) 的
-**二次开发**，不是从零开始的项目。上游是这套 HDD 主题的原始实现（Apache-2.0）；本仓库把
-其中的 `fairy-visual/dsh-fairy-visual` 迁移到 DSH `0.2.1-rc.5` 的插件契约上，按标准
-bundle 形态重新打包，只发布主题这一个包。
-
-- 上游基线：`d639887`（2026-08-29）中的 `fairy-visual/dsh-fairy-visual` `0.1.0`
-- 上游版权与 NOTICE 按 Apache-2.0 保留，见 [NOTICE](NOTICE)；本仓库的修改同样以
-  Apache-2.0 发布
-
-相对上游的改动（Apache-2.0 §4(b) 要求的"已修改"声明）：
-
-| 面 | 改动 |
+| 路径 | 内容 |
 | --- | --- |
-| 目标版本 | `0.1.1-rc.2` → `0.2.1-rc.5` |
-| 设置通道 | `ctx.settingsScope.bind({ namespace })` 在 rc.5 不存在，改为插件自有 JSON 存储 + `GET/POST /fairy-visual/settings` |
-| 装载形态 | 不再依赖 `profiles/web` 的 `clientModules` 注册，改为每包自带 `dsh.bundle.patch` 与 `cordis.patch.yml` |
-| 契约 | `dsh-fairy-contracts` 的跨包裸导入内联为 `src/contracts/`；客户端 inject 收窄到 rc.5 真实存在的服务 |
-| DOM 适配 | 补 `[data-phase]`、`data-conversation-region="chat"` 等 rc.5 标记的回退读取 |
-| 构建 | 宿主半边不再打包（`src/index.js` 由 loader 直接加载），只有客户端走 tsdown |
-| 裁剪 | composer 底舱与 Hero 投影在 rc.5 关闭（两个开关保留，代码未删） |
+| `packages/` | 9 个已迁移到 rc.5 的包；除 `dsh-fairy-contracts` 外，每个包自己就是一个 bundle |
+| `tools/` | 维护者用的迁移脚本：asar 读取、客户端冒烟、预设迁移、预构建产物改造 |
+| `docs/rc5-port-plan.md` | rc.2 → rc.5 的移植计划、已核实的环境事实与里程碑 |
+| `legacy/rc2/` | 上游 rc.2 基线原样：5 个插件包 + `fairy-contracts` + `fairy-system` 验收工具 + profile 模板与隔离测试脚本 |
+| `.agent-presets/fairy/` | 旧格式 Fairy 语料（`dsh-fairy-preset` 的迁移源；0.2.x 的 registry 已不直接读目录） |
+| `.tmp-shot/` | 开发期截图与裁剪脚本，不是产品资产 |
 
-## 它做了什么
+## 包
 
-| 部件 | 说明 |
-| --- | --- |
-| HDD 背景层 | 全屏背景面，挂在 `body` 之下，指针穿透 |
-| Fairy 舞台 | `shell.overlay` 上的大眼睛 mascot，会随任务状态切表情与动画 |
-| 侧栏板 | 品牌 mark、历史区材质与内容渐隐 |
-| 视觉开关 | 会话头部工具区一个开关；Hero 界面下从 overlay 渲染兜底入口 |
-| 设置页 | 在「设置 → 插件」里：主题、mascot 显隐/大小/偏移/动画速度、节能模式 |
-| 滚动条 / 过渡 | 自绘滚动条与模式过渡；`prefers-reduced-motion` 时动画降级 |
+| 包 | 版本 | 作用 |
+| --- | --- | --- |
+| `dsh-fairy-visual` | 0.2.0-m1 | HDD 视觉主题：背景层、Fairy 舞台、侧栏板、自绘滚动条、设置页 |
+| `dsh-fairy-voice` | 0.1.0 | 规则驱动的语音提示，含 44 段合成语音（`assets/sounds/*.wav`） |
+| `dsh-fairy-preset` | 0.2.0 | Fairy 人格预设（`preset-fairy` 声明行，人格提示词内联在 `prefix`） |
+| `dsh-fairy-startup` | 0.2.0 | 开页即落一个空白会话 |
+| `dsh-browser-dock` | 0.1.0 | 内嵌浏览器坞（`proxy.cjs` + 客户端半边） |
+| `dsh-balance-meter` | 0.2.0 | 余额与当日用量估算卡 |
+| `dsh-fairy-contracts` | 0.1.0 | 跨包诊断与 DOM 契约；唯一的纯库包，不带 bundle patch |
+| `dsh-session-delete` | 0.1.0 | 从侧栏永久删除一个工作区会话 |
+| `dsh-sticky-notes` | 0.1.0 | 侧栏便签与待办板 |
 
 ## 安装
 
-要求：DSH 桌面版 `0.2.1-rc.5`（或与之客户端契约兼容的 Web profile）。插件装在
-profile 里，不在 `app.asar` 内，升级 DSH 不会覆盖它。
+每个包都能单独安装，目标 profile 由 `--profile` 决定（桌面版默认 `desktop`）。
 
-三种装法，任选其一：
+1. **插件页**：侧栏「插件」→ **添加插件** → 填包目录的**本机绝对路径**，例如
+   `...\packages\dsh-fairy-visual`。
+2. **CLI**：`dsh plugin add <包目录绝对路径>`。
+3. **本地目录**：`git clone` 之后把包目录的绝对路径作为 spec 安装。
 
-1. **插件页**（推荐）：侧栏「插件」→ **添加插件** → 粘贴本仓库的 Git 地址。
-2. **CLI**：`dsh plugin add <仓库地址>`（用 `--profile` 指定目标 profile）。
-3. **本地目录**：`git clone` 之后，把本目录的**绝对路径**作为 spec 安装。
+注意：仓库根**没有** `package.json`（这是 monorepo），所以不要把仓库根的 Git 地址当成插件
+spec 粘贴——那样装不上。首个版本把主题放在仓库根，那个地址已经失效。
 
-装完刷新页面，视觉默认是关的；用会话头部的开关打开。
+## 测试
 
-## 使用
-
-状态存在 `$DSH_HOME/fairy-visual/settings.json`（`DSH_HOME` 缺省为 `~/.dsh`），
-插件自己带一条读写路由 `GET/POST /fairy-visual/settings`，不依赖 DSH 的 settings
-namespace。
-
-## 开发
-
-宿主半边（`src/index.js`）是普通 ESM，被 Host loader 直接从源码加载，不需要构建；
-只有客户端半边要打包成 `lib/client.js`。
+rc.2 基线的隔离测试（需要 DSH CLI、Node.js、pnpm，且必须用独立 `DSH_HOME`）：
 
 ```sh
-pnpm install --config.node-linker=hoisted   # pnpm 11 会忽略 .npmrc 的 node-linker
-pnpm build                                   # tsdown: src/client/index.js -> lib/client.js
+cd legacy/rc2
+DSH_HOME="$PWD/.dsh-test-home" ./scripts/test-isolated.sh
 ```
 
-构建产物 `lib/client.js` 随仓库提交，所以使用者不需要装 tsdown。改了客户端代码要
-重新构建再刷新页面；改了 `package.json` 的 `main`/`exports` 需要重新装载 bundle。
+rc.5 包的语法门与单测：
 
-## 已知限制
+```sh
+node --check packages/dsh-fairy-visual/src/index.js
+node --test packages/dsh-sticky-notes/test/*.test.js
+```
 
-- 只支持 Web 界面；没有浏览器载体（`webServer`）的 profile 里插件不会激活。
-- 客户端 inject 的服务名按 rc.5 的服务目录写死。DSH 换版后如果某个服务消失，
-  模块会**静默不激活**而不是报错——升级后请先看插件是否还在工作。
-- composer 底舱与 Hero 投影两个子系统在 rc.5 上关闭（代码保留，入口是
-  `src/client/composer-dock.js` 与 `hero-projection-manager.js` 顶部的开关），
-  底栏交回官方布局。其余 HDD 视觉均生效。
-- 版本兼容性没有声明 `engines.dsh`：装到不兼容版本上不会被拦住。
+CI 见 `.github/workflows/test.yml`：上游候选工作流的路径移植版（跑 rc.2 基线的 visual / voice
+测试），外加 rc.5 各包入口的 `node --check` 语法门与 `packages/*/test` 单测。
 
-## 内容边界
+## 内容与权利边界
 
-仓库只含原创代码、脚本与配置。不含游戏剧情文本、官方素材、TTS 素材、世界观数据、
-个人语料、会话记录或密钥。占位文案是界面用的短句，不含剧情段落。
+本仓库**公开包含**下列派生自《绝区零》语料的内容，这是维护者的明确决定：
 
-## 许可证
+- `packages/dsh-fairy-preset/cordis.patch.yml` 里内联的 Fairy 人格提示词；
+- `packages/dsh-fairy-voice/assets/sounds/` 下的 44 段合成语音；
+- `.agent-presets/fairy/` 下的 canon / behavior / personality / style 语料。
 
-原创代码按 Apache License 2.0 发布，见 [LICENSE](LICENSE)。代码主体来自上游
-[Chengzhibense/Fairy-DSH](https://github.com/Chengzhibense/Fairy-DSH)，本仓库的修改沿用
-同一许可并保留其 NOTICE。第三方依赖、宿主提供的 DSH 包以及相关名称/角色/商标不在该
-许可范围内，分别见 [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) 与
-[TRADEMARKS.md](TRADEMARKS.md)。
+这些文本、角色设定、角色形象与声音的权利归米哈游（miHoYo）及相关权利人。Apache-2.0 只覆盖
+本仓库的原创代码、脚本、测试与配置，**不授予上述内容的任何权利**；这里的留存仅用于个人研究
+与学习。权利人如有异议，请开 issue，会移除对应内容。
+
+不随仓库分发：生产会话、日志、凭据、TTS 推理运行时（模型 / venv）、个人世界知识库。
+
+## 许可
+
+原创代码、脚本、测试、配置与文档按 Apache License 2.0 发布，见 `LICENSE` 与 `NOTICE`。
+第三方依赖不在该许可范围内，见 `THIRD_PARTY_NOTICES.md`；名称、角色与商标见
+`TRADEMARKS.md`。发布前复核清单见 `RELEASE-CHECKLIST.md`。

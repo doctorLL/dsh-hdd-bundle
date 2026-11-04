@@ -1,0 +1,26 @@
+Fairy-DSH
+Copyright 2026 Chengzhibense.
+
+This repository contains original Fairy-DSH code and configuration released
+under the Apache License, Version 2.0. Third-party dependencies retain their
+own licenses; see THIRD_PARTY_NOTICES.md.
+
+Fairy, DSH, DeepSeek, Zenless Zone Zero, and related names or marks are not
+licensed by this NOTICE. See TRADEMARKS.md. Game text, official assets,
+private world data, user data, and personal corpora are intentionally not
+distributed by this repository.
+
+--------------------------------------------------------------------------
+
+dsh-fairy-visual, as redistributed here, is a derivative work of the upstream
+project at https://github.com/Chengzhibense/Fairy-DSH (baseline commit
+d639887). The copyright notice and license above are retained unchanged, as
+required by the Apache License, Version 2.0, section 4. The original name and
+attribution remain the property of the upstream author; this repository does
+not claim authorship of the upstream implementation.
+
+Modifications made in this repository are listed in README.md under
+"来源与二次开发" and are declared here as required by section 4(b): the visual
+theme was ported from DSH 0.1.1-rc.2 to 0.2.1-rc.5, its settings transport was
+replaced with a plugin-owned HTTP route, and the package was repackaged as a
+self-contained bundle.
